@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/vendor/jquery.min.js"></script>
+    <script src="/js/vendor/handlebars-1.0.0-rc.4.js"></script>
+    <script src="/js/vendor/ember-1.0.0-rc.6.js"></script>
+    <script>
+        $(function() {
+            $(".meter > span").each(function() {
+                $(this)
+                        .data("origWidth", $(this).width())
+                        .width(0)
+                        .animate({
+                            width: $(this).data("origWidth")
+                        }, 1200);
+            });
+        });
+    </script>
+    <script src="/js/app/app.js"></script>
+    <script src="/js/app/events.js"></script>
+    <script src="/js/app/models.js"></script>
+    <script src="/js/app/controllers.js"></script>
+    <script src="/js/app/views.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/default.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/progress-bars.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/shake.css"/>
+
+</head>
+<body>
+    <script type="text/x-handlebars">
+        {{view view.MapView playersBinding="controllers.players" attacksBinding="controllers.attacks"}}
+        <div id="hud">
+            <div class="left">
+                <span class="label">Name:</span><span>{{controllers.player.name}}</span>
+            </div>
+            <div class="middle">
+                <span class="label">Turn:</span>
+                {{#if controllers.activePlayer}}
+                    <span>{{controllers.activePlayer.name}}</span>
+                {{/if}}
+            </div>
+            <div class="middle">
+                <span class="label">Target:</span>
+                {{#if controllers.target}}
+                    <span>{{controllers.target.name}}</span>
+                    <button {{action "attack" "pistol" target="controllers.target"}}>Pistol</button>
+                    <button {{action "attack" "shotgun" target="controllers.target"}}>Shotgun</button>
+                {{/if}}
+            </div>
+            <div class="right">
+                <span class="label">Health:</span><span>{{controllers.player.health}}</span>
+            </div>
+        </div>
+    </script>
+    <script type="text/x-handlebars" id="map">
+        {{#each view.players}}
+            {{view view.PlayerView playerBinding="this"}}
+        {{/each}}
+        {{#each view.attacks}}
+            {{view view.AttackView attackBinding="this"}}
+        {{/each}}
+    </script>
+    <script type="text/x-handlebars" id="attack">
+        <span class="damage">{{view.attack.damage}}</span>
+    </script>
+    <script type="text/x-handlebars" id="player">
+        <img src="/img/player.png" />
+        <span class="health meter animate">
+            {{view view.HealthBarView playerBinding="this"}}
+        </span>
+        <span class="name">{{name}}</span>
+    </script>
+</body>

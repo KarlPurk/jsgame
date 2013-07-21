@@ -1,0 +1,16 @@
+{
+  "name": "jsgame",
+  "version": "0.0.1",
+  "author": "Karl Purkhardt",
+  "description": "A small game written in javascript and node",
+  "main": "packages/jsmapper/main.js",
+  "dependencies": {},
+  "optionalDependencies": {},
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "socket.io": "~0.9.16",
+    "node-static": "~0.7.0"
+  }
+}
